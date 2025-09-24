@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Powerhouse - SiteGrow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset and Basic Setup */
+        :root {
+            --primary-blue: #4F46E5;
+            --primary-blue-light: #6366F1;
+            --primary-green: #22C55E;
+            --final-cta-blue: #2563EB;
+            --final-cta-green: #10B981;
+            --dark-text: #111827;
+            --light-text: #6B7280;
+            --background-light: #F9FAFB;
+            --border-color: #E5E7EB;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--dark-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 48px;
+            color: var(--dark-text);
+        }
+
+        h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--dark-text);
+        }
+        
+        h2 + p {
+            max-width: 600px;
+            margin: 0 auto 48px auto;
+            text-align: center;
+            color: var(--light-text);
+            font-size: 18px;
+        }
+
+        p {
+            color: var(--light-text);
+            font-size: 16px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:disabled {
+            background: #9CA3AF;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-blue-light));
+            color: var(--white);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--primary-green);
+            color: var(--white);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Header & Navigation */
+        .main-header {
+            padding: 20px 0;
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .main-nav a {
+            margin: 0 16px;
+            text-decoration: none;
+            color: var(--light-text);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .main-nav a:hover {
+            color: var(--primary-blue);
+        }
+
+        .auth-buttons .btn {
+            margin-left: 10px;
+        }
+        
+        /* Modals for Login/Register */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .modal h2 { text-align: center; margin-bottom: 24px; }
+        .modal input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .modal .btn { width: 100%; }
+        .modal .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* General View Styles */
+        .view { display: none; }
+        .view.active { display: block; }
+        
+        /* --- LANDING PAGE STYLES --- */
+        
+        section { padding: 100px 0; }
+        
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: radial-gradient(circle at 10% 20%, rgba(218, 235, 255, 0.4), transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(209, 250, 229, 0.4), transparent 50%);
+        }
+        
+        .hero .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 999px;
+            color: var(--primary-blue);
+            background-color: var(--white);
+            margin-bottom: 24px;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+        
+        .hero h1 { margin-bottom: 24px; }
+        .hero p { max-width: 600px; margin: 0 auto 32px; font-size: 18px; color: var(--light-text); }
+        .hero-form {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .hero-form input {
+            padding: 14px;
+            width: 350px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 16px;
+        }
+        
+        /* Features Section */
+        .features { background-color: var(--background-light); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+        }
+        .feature-card h3 { font-size: 18px; margin-bottom: 8px; }
+        .feature-card p { font-size: 14px; }
+
+        /* AI Generation Section */
+        .ai-generation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .infographic-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Command Center Section */
+        .command-center { background-color: var(--background-light); }
+        .dashboard-svg-container {
+            max-width: 900px;
+            margin: 48px auto 0;
+            padding: 24px;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .dashboard-svg-container svg { width: 100%; height: auto; }
+        
+        /* Roadmap Section */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .roadmap-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .roadmap-card h3 {
+            font-size: 18px;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .roadmap-card ul { list-style: none; }
+        .roadmap-card li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 8px;
+            color: var(--light-text);
+        }
+        .roadmap-card li::before {
+            content: '✓';
+            color: var(--primary-green);
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--final-cta-blue), var(--final-cta-green));
+            color: var(--white);
+            text-align: center;
+            border-radius: 24px;
+            margin: 0 24px;
+        }
+        .final-cta h2, .final-cta p { color: var(--white); }
+        .final-cta p { max-width: 500px; }
+
+        /* --- DASHBOARD VIEW STYLES --- */
+        #dashboard-view { padding: 60px 0; }
+        
+        .dashboard-header {
+             text-align: center;
+             margin-bottom: 40px;
+        }
+        
+        .analysis-form {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .analysis-form input {
+            padding: 14px;
+            width: 400px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .results-container {
+            margin-top: 40px;
+            padding: 24px;
+            background-color: var(--background-light);
+            border-radius: 12px;
+        }
+        
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        
+        .result-widget {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .result-widget h3 { font-size: 18px; margin-bottom: 16px; }
+        .result-widget .value { font-size: 32px; font-weight: 700; color: var(--primary-blue); }
+        .result-widget .details, .result-widget ul { font-size: 14px; color: var(--light-text); list-style: none; padding-left: 0; }
+        .result-widget li { margin-bottom: 8px; }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">SiteGrow</div>
+            <nav class="main-nav">
+                <a href="#">Features</a>
+                <a href="#">Pricing</a>
+                <a href="#">Blog</a>
+            </nav>
+            <div class="auth-buttons">
+                <!-- Auth buttons will be dynamically added here by JavaScript -->
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- LANDING PAGE VIEW (LOGGED OUT) -->
+        <div id="landing-page-view" class="view active">
+            <section class="hero">
+                <div class="container">
+                    <span class="badge">TRY IT NOW</span>
+                    <h1>Turn Your Website Into a <br>Content Powerhouse</h1>
+                    <p>Our AI-powered SEO automation suite helps you create high-quality, relevant content that drives traffic and boosts your rankings.</p>
+                    <form class="hero-form">
+                        <input type="url" placeholder="Enter your website URL..." required>
+                        <button type="submit" class="btn btn-primary" id="hero-start-btn">Start For Free</button>
+                    </form>
+                    <small>No credit card required. Sign up to see your analysis.</small>
+                </div>
+            </section>
+            
+            <section class="features fade-in-section">
+                <div class="container">
+                    <h2>Complete SEO Automation Suite</h2>
+                    <p>Everything you need to rank higher, drive more traffic, and convert more visitors. All powered by AI.</p>
+                    <div class="features-grid">
+                        <!-- Feature Cards -->
+                        <div class="feature-card"><h3>Keyword Discovery & Analysis</h3><p>Uncover high-intent keywords your competitors are missing.</p></div>
+                        <div class="feature-card"><h3>Automated Content Generation</h3><p>Create SEO-optimized articles and landing pages in minutes.</p></div>
+                        <div class="feature-card"><h3>On-Page SEO Suggestions</h3><p>Get real-time feedback to perfect your content's structure.</p></div>
+                        <div class="feature-card"><h3>Technical SEO Audits</h3><p>Find and fix critical site errors that hurt your rankings.</p></div>
+                        <div class="feature-card"><h3>Rank Tracking & Reporting</h3><p>Monitor your performance and see the impact of your work.</p></div>
+                        <div class="feature-card"><h3>Backlink Opportunity Finder</h3><p>Discover high-authority sites to get valuable backlinks from.</p></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="ai-generation fade-in-section">
+                <div class="container">
+                    <h2>AI-Powered Content Generation</h2>
+                    <p>From a single keyword or topic, generate a complete, SEO-optimized article that's ready to publish.</p>
+                    <div class="ai-generation-grid">
+                        <div class="infographic-card">
+                            <h3 style="margin-bottom: 16px;">Step 1: Your Idea</h3>
+                            <p style="margin-bottom: 20px;">Provide a URL, topic, or keyword. Our AI analyzes the top search results to understand intent and identify content gaps.</p>
+                            <svg width="100%" viewBox="0 0 450 250">
+                                <rect x="1" y="1" width="448" height="248" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+                                <rect x="20" y="20" width="150" height="12" rx="4" fill="#E5E7EB"/>
+                                <rect x="20" y="50" width="410" height="40" rx="6" fill="#FFFFFF" stroke="#E5E7EB"/>
+                                <text x="30" y="75" fill="#6B7280" font-family="Inter" font-size="12">e.g., "Best SEO practices for e-commerce"</text>
+                                <rect x="20" y="110" width="120" height="12" rx="4" fill="#E5E7EB"/>
+                                <rect x="20" y="140" width="80" height="25" rx="12" fill="#E5E7EB"/>
+                                <rect x="110" y="140" width="80" height="25" rx="12" fill="#E5E7EB"/>
+                                <rect x="200" y="140" width="80" height="25" rx="12" fill="#E5E7EB"/>
+                            </svg>
+                        </div>
+                        <div class="infographic-card">
+                             <h3 style="margin-bottom: 16px;">Step 2: AI-Generated Content</h3>
+                            <p style="margin-bottom: 20px;">The AI writes a unique, high-quality article with proper headings, internal linking suggestions, and meta descriptions.</p>
+                             <svg width="100%" viewBox="0 0 450 250">
+                                <rect x="1" y="1" width="448" height="248" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+                                <rect x="20" y="20" width="250" height="14" rx="5" fill="#4F46E5"/>
+                                <rect x="20" y="50" width="410" height="8" rx="4" fill="#E5E7EB"/>
+                                <rect x="20" y="65" width="380" height="8" rx="4" fill="#E5E7EB"/>
+                                <rect x="20" y="80" width="400" height="8" rx="4" fill="#E5E7EB"/>
+                                <rect x="20" y="110" width="180" height="12" rx="4" fill="#D1D5DB"/>
+                                <rect x="20" y="140" width="410" height="8" rx="4" fill="#E5E7EB"/>
+                                <rect x="20" y="155" width="380" height="8" rx="4" fill="#E5E7EB"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="command-center fade-in-section">
+                <div class="container">
+                    <h2>Your SEO Command Center</h2>
+                    <p>All your data, in one place. Monitor your website's performance and track your keyword rankings with a beautiful, intuitive dashboard.</p>
+                    <div class="dashboard-svg-container">
+                        <svg viewBox="0 0 845 491" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5" y="0.5" width="844" height="490" rx="15.5" fill="white"></rect><path d="M1 16C1 7.71573 7.71573 1 16 1H829C837.284 1 844 7.71573 844 16V64H1V16Z" fill="#F9FAFB"></path><rect x="0.5" y="0.5" width="844" height="490" rx="15.5" stroke="#E5E7EB"></rect><rect x="34" y="24" width="112" height="16" rx="4" fill="#E5E7EB"></rect><circle cx="803" cy="32" r="10" fill="#E5E7EB"></circle><rect x="34" y="93" width="182" height="16" rx="5" fill="#111827"></rect><rect x="744" y="93" width="67" height="24" rx="6" fill="#DCFCE7"></rect><text fill="#16A34A" font-family="Inter" font-size="12" font-weight="600" letter-spacing="0.025em"><tspan x="752" y="109.8">+2.1%</tspan></text><rect x="34" y="141" width="378" height="150" rx="12" fill="white" stroke="#E5E7EB"></rect><rect x="433" y="141" width="179" height="150" rx="12" fill="white" stroke="#E5E7EB"></rect><rect x="632" y="141" width="179" height="150" rx="12" fill="white" stroke="#E5E7EB"></rect><rect x="34" y="315" width="378" height="142" rx="12" fill="white" stroke="#E5E7EB"></rect><rect x="433" y="315" width="378"height="142" rx="12" fill="white" stroke="#E5E7EB"></rect><text fill="#6B7280" font-family="Inter" font-size="14"><tspan x="54" y="167.4">SEO Dashboard</tspan></text><text fill="#111827" font-family="Inter" font-size="36" font-weight="700"><tspan x="54" y="213">5,847</tspan></text><text fill="#6B7280" font-family="Inter" font-size="14"><tspan x="54" y="234.4">Total Clicks</tspan></text><text fill="#6B7280" font-family="Inter" font-size="14"><tspan x="453" y="167.4">Avg. Position</tspan></text><text fill="#111827" font-family="Inter" font-size="36" font-weight="700"><tspan x="453" y="213">3.8</tspan></text><text fill="#6B7280" font-family="Inter" font-size="14"><tspan x="652" y="167.4">CTR</tspan></text><text fill="#111827" font-family="Inter" font-size="36" font-weight="700"><tspan x="652" y="213">5.2%</tspan></text></svg>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="roadmap fade-in-section">
+                <div class="container">
+                    <h2>Product Roadmap</h2>
+                    <p>We're constantly shipping new features to help you stay ahead of the curve. Here's what's coming soon.</p>
+                    <div class="roadmap-grid">
+                        <div class="roadmap-card"><h3>Q3 2025</h3><ul><li>AI-Powered Internal Linking</li><li>Automated Content Refresh</li><li>SERP Feature Analysis</li></ul></div>
+                        <div class="roadmap-card"><h3>Q4 2025</h3><ul><li>Multi-Language Support</li><li>Plagiarism Checker</li><li>Team Collaboration Tools</li></ul></div>
+                        <div class="roadmap-card"><h3>Q1 2026</h3><ul><li>Full E-commerce Suite</li><li>Social Media Integration</li><li>API Access for Developers</li></ul></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container">
+                 <section class="final-cta fade-in-section">
+                    <h2>Ready to Transform Your SEO Strategy?</h2>
+                    <p>Join hundreds of businesses that are using our platform to dominate the search results.</p>
+                    <form class="hero-form" style="margin-top: 32px;">
+                        <input type="url" placeholder="Enter your website URL..." required>
+                        <button type="submit" class="btn btn-primary" id="final-cta-btn" style="background: var(--white); color: var(--primary-blue);">Get A Free Analysis</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW (LOGGED IN) -->
+        <div id="dashboard-view" class="view">
+             <div class="container">
+                <div class="dashboard-header">
+                    <h2>Welcome to Your Dashboard</h2>
+                    <p>Enter a URL to begin a new analysis or review your past projects below.</p>
+                </div>
+                <form id="analysis-form" class="analysis-form">
+                    <input type="url" id="dashboard-url-input" placeholder="https://example.com" required>
+                    <button type="submit" class="btn btn-primary">Analyze URL</button>
+                </form>
+
+                <div id="active-analysis-container" class="results-container" style="display: none;">
+                    <h3 style="text-align: center; margin-bottom: 20px;">Current Analysis</h3>
+                    <div id="active-analysis-loader" class="loader"></div>
+                    <p id="analysis-status" style="text-align: center; color: var(--light-text);"></p>
+                    <div id="active-results-grid" class="results-grid"></div>
+                </div>
+                 
+                <div class="results-container" style="margin-top: 40px;">
+                     <h3 style="text-align: center; margin-bottom: 20px;">Past Projects</h3>
+                     <div id="past-projects-list">
+                         <p style="text-align:center; color: var(--light-text);">Your previous analyses will appear here.</p>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn btn-primary">Log In</button>
+                <p id="login-error" style="color: red; font-size: 14px; margin-top: 10px;"></p>
+            </form>
+        </div>
+    </div>
+    
+    <!-- REGISTER MODAL -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Create Account</h2>
+            <form id="register-form">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password (min. 6 characters)" required>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <p id="register-error" style="color: red; font-size: 14px; margin-top: 10px;"></p>
+            </form>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            signOut,
+            signInWithCustomToken,
+            signInAnonymously
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc,
+            addDoc,
+            collection,
+            query,
+            onSnapshot,
+            serverTimestamp,
+            orderBy
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- UI Element Selectors ---
+        const authButtonsContainer = document.querySelector('.auth-buttons');
+        const landingPageView = document.getElementById('landing-page-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        
+        // --- AUTH STATE MANAGEMENT ---
+        let currentUserId = null;
+        let unsubscribeProjects = null; 
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUserId = user.uid;
+                setupUIForLoggedInUser(user);
+                listenToProjects();
+            } else {
+                currentUserId = null;
+                setupUIForLoggedOutUser();
+                if (unsubscribeProjects) unsubscribeProjects();
+            }
+        });
+        
+        (async () => {
+             try {
+                if (initialAuthToken) await signInWithCustomToken(auth, initialAuthToken);
+                else await signInAnonymously(auth);
+             } catch(error) {
+                console.error("Auth initialization failed:", error);
+             }
+        })();
+
+        // --- UI LOGIC ---
+        function setupUIForLoggedInUser(user) {
+            authButtonsContainer.innerHTML = `<button id="logout-btn" class="btn btn-secondary">Logout</button>`;
+            document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+            landingPageView.classList.remove('active');
+            dashboardView.classList.add('active');
+        }
+
+        function setupUIForLoggedOutUser() {
+            authButtonsContainer.innerHTML = `
+                <button id="login-btn-header" class="btn btn-primary">Login</button>
+                <button id="register-btn-header" class="btn btn-secondary">Sign Up</button>`;
+            document.getElementById('login-btn-header').addEventListener('click', () => openModal(loginModal));
+            document.getElementById('register-btn-header').addEventListener('click', () => openModal(registerModal));
+            landingPageView.classList.add('active');
+            dashboardView.classList.remove('active');
+        }
+
+        // --- MODAL HANDLING ---
+        function openModal(modal) { modal.style.display = 'flex'; }
+        function closeModal(modal) { modal.style.display = 'none'; }
+        
+        [loginModal, registerModal].forEach(modal => {
+            modal.querySelector('.close-btn').addEventListener('click', () => closeModal(modal));
+            window.addEventListener('click', (event) => { if (event.target == modal) closeModal(modal); });
+        });
+        
+        document.querySelectorAll('#hero-start-btn, #final-cta-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(registerModal)
+            });
+        });
+        
+        // --- AUTH FORM HANDLING ---
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const [email, password] = [e.target[0].value, e.target[1].value];
+            const errorP = document.getElementById('login-error');
+            errorP.textContent = '';
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                closeModal(loginModal);
+            } catch (error) { errorP.textContent = error.message; }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const [email, password] = [e.target[0].value, e.target[1].value];
+            const errorP = document.getElementById('register-error');
+            errorP.textContent = '';
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                closeModal(registerModal);
+            } catch (error) { errorP.textContent = error.message; }
+        });
+
+        // --- DASHBOARD AND WORKFLOW LOGIC ---
+        const analysisForm = document.getElementById('analysis-form');
+        const activeAnalysisContainer = document.getElementById('active-analysis-container');
+        const analysisStatus = document.getElementById('analysis-status');
+        const activeResultsGrid = document.getElementById('active-results-grid');
+
+        analysisForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const url = document.getElementById('dashboard-url-input').value;
+            if (!currentUserId || !url) return;
+            try {
+                const projectRef = collection(db, `artifacts/${appId}/users/${currentUserId}/projects`);
+                const docRef = await addDoc(projectRef, { url, status: 'pending', createdAt: serverTimestamp(), results: null });
+                
+                activeAnalysisContainer.style.display = 'block';
+                analysisStatus.textContent = 'Starting analysis... Sending request to workflow.';
+                activeResultsGrid.innerHTML = `<div id="active-analysis-loader" class="loader"></div>`;
+                
+                // Your actual n8n webhook URL
+                const webhookUrl = 'https://n8n.benai.agency/webhook/3006c3cb-2a9f-4ec6-9b02-8afd3d3f701a';
+
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'scrapeUrl',
+                        userId: currentUserId,
+                        projectId: docRef.id,
+                        appId: appId
+                    })
+                });
+            } catch (error) {
+                console.error("Error starting analysis:", error);
+                analysisStatus.textContent = 'Error: Could not start analysis.';
+            }
+        });
+        
+        function listenToProjects() {
+            if (unsubscribeProjects) unsubscribeProjects();
+            const projectsRef = collection(db, `artifacts/${appId}/users/${currentUserId}/projects`);
+            const q = query(projectsRef, orderBy("createdAt", "desc"));
+
+            unsubscribeProjects = onSnapshot(q, (snapshot) => {
+                const pastProjectsList = document.getElementById('past-projects-list');
+                if (snapshot.empty) {
+                     pastProjectsList.innerHTML = `<p style="text-align:center; color: var(--light-text);">No projects yet. Start an analysis above!</p>`;
+                     return;
+                }
+                pastProjectsList.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const project = doc.data();
+                    const projectEl = document.createElement('div');
+                    projectEl.className = 'result-widget';
+                    projectEl.innerHTML = `<strong>URL:</strong> ${project.url}<br><strong>Status:</strong> ${project.status}`;
+                    pastProjectsList.appendChild(projectEl);
+                });
+
+                const latestProject = snapshot.docs[0].data();
+                if (latestProject && latestProject.status !== 'complete') {
+                    activeAnalysisContainer.style.display = 'block';
+                    analysisStatus.textContent = `Analysis status: ${latestProject.status}`;
+                    activeResultsGrid.innerHTML = `<div id="active-analysis-loader" class="loader"></div>`;
+                }
+                 if (latestProject && latestProject.results) {
+                    analysisStatus.textContent = 'Analysis Complete!';
+                    document.getElementById('active-analysis-loader')?.remove();
+                    renderResults(latestProject.results);
+                }
+            });
+        }
+        
+        function renderResults(results) {
+             activeResultsGrid.innerHTML = `
+                <div class="result-widget"><h3>On-Page Score</h3><p class="value">${results.onPageScore || 'N/A'}</p></div>
+                <div class="result-widget"><h3>Monthly Traffic (Est.)</h3><p class="value">${results.traffic || 'N/A'}</p></div>
+                <div class="result-widget"><h3>Content Grade</h3><p class="value">${results.contentGrade || 'N/A'}</p></div>
+                <div class="result-widget"><h3>Top Keywords</h3><ul>${(results.keywords || []).map(k => `<li>- ${k}</li>`).join('')}</ul></div>`;
+        }
+
+        // --- Landing Page Animations ---
+        const faders = document.querySelectorAll('.fade-in-section');
+        const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -100px 0px" };
+        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        }, appearOptions);
+        faders.forEach(fader => appearOnScroll.observe(fader));
+    </script>
+</body>
+</html>
+
